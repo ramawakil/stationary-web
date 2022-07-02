@@ -9,6 +9,8 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import AppSubmitButton from "../app/components/forms/AppSubmitButton";
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
+import AppButton from "../app/components/AppButton";
+import {useRouter} from "next/router";
 
 
 const ValidationSchema = Yup.object().shape({
@@ -21,6 +23,7 @@ const ValidationSchema = Yup.object().shape({
 
 function Register(props) {
     const [passwordVisible, setPasswordVisible] = React.useState(false);
+    const router = useRouter();
 
     const handleSubmit = (values) => {
         console.log(values);
@@ -28,6 +31,10 @@ function Register(props) {
 
     const handleShowPassword = () => {
         setPasswordVisible(!passwordVisible);
+    }
+
+    const handleGoToLogin = () => {
+        router.push('/login')
     }
 
     return (
@@ -81,9 +88,14 @@ function Register(props) {
                         />
                         <Box sx={{
                             display: 'flex',
-                            justifyContent: 'flex-end'
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
                         }}>
+                            <Box>
+                                <AppButton sx={{ textTransform: 'none' }} title='Already have an Account? Login here.' onPress={handleGoToLogin} />
+                            </Box>
                             <Box sx={{ flex: 0.4 }}>
+
                                 <AppSubmitButton  title='register' variant='contained' color='success' endIcon={<DoubleArrowIcon />} />
                             </Box>
                         </Box>

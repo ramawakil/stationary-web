@@ -9,6 +9,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import LockIcon from '@mui/icons-material/Lock';
 import AppButton from "../AppButton";
 import LoadingContext from "../../context/loadingContext";
+import {useRouter} from "next/router";
 
 
 const ValidationSchema = Yup.object().shape({
@@ -26,13 +27,23 @@ function AppLogin({
                         usernameLabel = null,
                         passwordLabel = null
                   }) {
+
     const {setLoading} = useContext(LoadingContext);
+    const router = useRouter();
 
     const handleSubmit = (values) => {
         setLoading(true);
         onSubmitForm(values);
         console.log(values);
         return setLoading(true);
+    }
+
+    const handleForgotPassword = () => {
+
+    }
+
+    const handleGoToRegister = () => {
+        router.push('/register')
     }
 
 
@@ -43,7 +54,7 @@ function AppLogin({
                 p: 2
             }}>
 
-                <AppLogo imageUrl='/logo192.png' appTitle={title} subtitle={subTitle}
+                <AppLogo imageUrl='/vercel.svg' appTitle={title} subtitle={subTitle}
                          imageAlt='Company logo at login page' height={imageSize} width={imageSize}/>
 
                 <AppForm
@@ -71,8 +82,8 @@ function AppLogin({
 
                     }}>
 
-                        <AppButton title='Forgot password?' variant='text' sx={{textTransform: 'none'}}/>
-                        <AppButton title='No account? Create now.' variant='text' sx={{textTransform: 'none'}}/>
+                        <AppButton onPress={handleForgotPassword} title='Forgot password?' variant='text' sx={{textTransform: 'none'}}/>
+                        <AppButton onPress={handleGoToRegister} title='No account? Create now.' variant='text' sx={{textTransform: 'none'}}/>
 
 
                     </Box>
