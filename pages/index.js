@@ -1,42 +1,65 @@
-import Head from 'next/head'
-import React, {useContext} from "react";
+import React from "react";
 import lottie from 'lottie-web';
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
-import {Box, Container, Typography} from "@mui/material";
-import loaderAnimation from '../app/animations/loading_printer.json';
-import {useEffect} from "react";
-import LoadingContext from "../app/context/LoadingContext";
+import {Box, Toolbar, Typography} from "@mui/material";
+import loaderAnimation from '../app/animations/loader.json';
 import {useRouter} from "next/router";
+import BaseLayoutNavBar from "../app/components/layout/BaseLayoutNavBar";
+import UserContext from "../app/context/userContext";
+
+
 
 export default function Home() {
-   const { loading, setLoading } = useContext(LoadingContext);
-   const router = useRouter();
+    const {user, setUser} = React.useContext(UserContext);
+    const anime = React.useRef(null);
+    const router = useRouter();
 
-   useEffect(() => {
-      setLoading(true);
-      setTimeout(() =>{
-          setLoading(false);
-          router.push('/service')
-      }, 2000)
 
-      }, []);
+    React.useEffect(() => {
+        // initialize animation
+        lottie.loadAnimation({
+            container: anime.current,
+            renderer: 'html',
+            loop: true,
+            autoplay: true,
+            animationData: loaderAnimation,
+        });
+        // wait until animation finished
+        // setTimeout(() => {
+        //     fetchUser();
+        // }, 4000);
+
+    }, []);
+
+    const fetchUser = async () => {
+        if (user) {
+            await router.push('/customers');
+        } else {
+            await router.push('/login');
+        }
+    }
+
+    const fetchUserLive = async () => {
+
+    }
+
 
     return (
         <>
-            <Container maxWidth='md'>
+            <BaseLayoutNavBar>
                 <Box sx={{
-                    mx: 'auto',
-                    mt: 10,
+
                     alignItems: 'center',
                     textAlign: 'center',
                 }}>
-                    <Typography variant='h3' color='icon' component='h1'>
-                            Welcome To The Flast Printer
-                    </Typography>
+                    <Box sx={{
+                        width: '100%',
+                        height: '500px'
+                    }} component='div' ref={anime}></Box>
                 </Box>
-
-            </Container>
+                <Typography sx={{  }} variant='subtitle1' gutterBottom textAlign='center'>
+                    Synchronization on progress ...
+                </Typography>
+            </BaseLayoutNavBar>
         </>
     )
 }

@@ -1,35 +1,25 @@
-import {Form, Formik} from 'formik';
 import React from 'react';
+import {Formik} from "formik";
 import {Box} from "@mui/material";
-import {makeStyles} from "@mui/styles";
-
-
-const useStyles = makeStyles(theme => ({
-    form: {
-        width: '100%',
-        margin: 5,
-        justifyContent: 'center',
-        alignContent: 'center',
-    },
-
-}));
-
 
 function AppForm({ initialValues, onSubmit, validationSchema, children }) {
-    const classes = useStyles();
-
     return (
-        <Formik initialValues={initialValues}
+        <>
+            <Formik
+                initialValues={initialValues}
                 onSubmit={onSubmit}
                 validationSchema={validationSchema}
-        >
-            { () => (
-                <>
-                    {children}
-                </>
-            )}
+            >
+                {
+                    () => (
+                        <Box sx={{ m: 1, p: 2 }}>
+                            {children}
+                        </Box>
+                    )
+                }
 
-        </Formik>
+            </Formik>
+        </>
     );
 }
 

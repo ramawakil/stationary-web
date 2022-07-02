@@ -4,10 +4,10 @@ import {createTheme} from '@mui/material/styles';
 const theme = createTheme({
     palette: {
         primary: {
-            main: '#03A9F4',
-            light: '#B3E5FC',
-            dark: '#0288D1',
-            text: '#FFFFFF',
+            main: '#4CAF50',
+            light: '#81C784',
+            dark: '#388E3C',
+            text: '#212121',
         },
         accent: {
             main: '#FF9800',
@@ -16,10 +16,16 @@ const theme = createTheme({
             text: '#212121',
         },
         secondary: {
-            main: '#4CAF50',
-            light: '#81C784',
-            dark: '#388E3C',
-            text: '#757575',
+            main: '#03A9F4',
+            light: '#B3E5FC',
+            dark: '#0288D1',
+            text: '#000000',
+            button: {
+                main: '#4CAF50',
+                light: '#81C784',
+                dark: '#388E3C',
+                text: '#ffffff',
+            },
         },
         background: {
             default: '#fafafa',
@@ -30,8 +36,9 @@ const theme = createTheme({
         },
         white: {
             main: '#FFFFFF',
-        }
+        },
     },
+
 });
 
 

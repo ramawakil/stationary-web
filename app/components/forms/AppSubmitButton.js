@@ -1,20 +1,17 @@
 import React from 'react';
+import {Box} from "@mui/material";
 import AppButton from "../AppButton";
 import {useFormikContext} from "formik";
-import {Button, IconButton} from "@mui/material";
-import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
 
-function AppSubmitButton({title, icon, ...props }) {
-    const { handleSubmit } = useFormikContext();
-
-    if (icon) return (
-        <IconButton onClick={handleSubmit}>
-            <ArrowCircleRightOutlinedIcon color='primary' />
-        </IconButton>
-    );
-
+function AppSubmitButton({title, ...otherProps}) {
+    const {handleSubmit} = useFormikContext();
+    
     return (
-        <AppButton onClick={handleSubmit}  variant='contained' {...props} title={title} />
+        <>
+            <Box>
+                <AppButton title={title} onPress={handleSubmit} {...otherProps} />
+            </Box>
+        </>
     );
 }
 

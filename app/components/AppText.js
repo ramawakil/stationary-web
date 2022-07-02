@@ -1,11 +1,18 @@
 import React from 'react';
-import {Typography} from "@mui/material";
+import {Box, Typography} from "@mui/material";
 
-function AppText({ variant, children, ...props }) {
+function AppText({ variant, children, width = '100%', ...otherProps }) {
     return (
-        <Typography sx={{ width: '100%' }} {...props}>
-            {children}
-        </Typography>
+        <>
+            <Box sx={{
+                width: width
+            }}>
+                <Typography {...otherProps} variant={variant}>
+                    {children}
+                </Typography>
+
+            </Box>
+        </>
     );
 }
 

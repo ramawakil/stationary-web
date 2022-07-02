@@ -108,7 +108,7 @@ function Register(props) {
                             mt: 3,
                             mb: 2
                         }}>
-                            <AppButton title='Already Registered ? Login Here' onClick={signInLink} />
+                            <AppButton title='Already Registered ? Register Here' onClick={signInLink} />
 
                         </Box>
 

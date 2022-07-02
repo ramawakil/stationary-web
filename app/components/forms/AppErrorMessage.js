@@ -1,23 +1,22 @@
 import React from 'react';
+import {Box} from "@mui/material";
 import AppText from "../AppText";
-import {makeStyles} from "@mui/styles";
 
-
-const useStyles = makeStyles(theme => ({
-    root: {
-        marginX: theme.spacing(1),
-        color: theme.palette.error.main,
-        fontSize: '0.8rem',
-    },
-}));
-
-function AppErrorMessage({error, visible, width}) {
-    const classes = useStyles();
+function AppErrorMessage({ error, visible, width }) {
 
     if (!visible || !error) return null;
 
     return (
-        <AppText className={classes.root} sx={{ width: width, marginLeft: 11, mt: 0 }} >{error}</AppText>
+        <>
+            <Box sx={{
+                margin: 1,
+                fontSize: '0.8rem',
+                width: width,
+            }}>
+                <AppText color='red' sx={{ fontSize: '12px' }} >{error}</AppText>
+
+            </Box>
+        </>
     );
 }
 
