@@ -2,6 +2,7 @@ import React from 'react';
 import * as Yup from "yup";
 import CustomerDashboardLayout from "../../app/components/layout/component/customerDashboardLayout";
 import AppTable from "../../app/components/commons/AppTable";
+import {useRouter} from "next/router";
 
 
 const Documents = [
@@ -30,6 +31,7 @@ const Columns = [
 function Index(props) {
     const [open, setOpen] = React.useState(false);
     const [documents, setDocuments] = React.useState(Documents);
+    const router = useRouter();
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -44,8 +46,8 @@ function Index(props) {
         handleClose();
     };
 
-    const handleGoToDetails = () => {
-
+    const handleGoToDetails = (val) => {
+        router.push(`/service/${val.id}`)
     }
 
     const handleSubmit = (values) => {
@@ -62,7 +64,7 @@ function Index(props) {
     return (
         <>
             <CustomerDashboardLayout>
-                <AppTable data={documents} columns={Columns} onClickEvent={handleGoToDetails}  />
+                <AppTable data={documents} columns={Columns} onClickEvent={(val) => handleGoToDetails(val)}  />
             </CustomerDashboardLayout>
 
         </>
