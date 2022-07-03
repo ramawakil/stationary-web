@@ -8,6 +8,7 @@ import AppButton from "../../AppButton";
 import PrintJobContext from "../../../context/printJobContext";
 import CustomerPrintJob from "../../customerPrintJob";
 import AppDialogue from "../../AppDialogue";
+import NewPrintRequestFormComponent from "../../newPrintRequestFormComponent";
 
 function CustomerDashboardLayout({children}) {
     const { user } = useContext(UserContext);
@@ -62,7 +63,7 @@ function CustomerDashboardLayout({children}) {
                 {children}
             </Container>
                 <AppDialogue title='New Print Request' open={openDialog} handleCloseDialog={handleCloseDialog} >
-
+                    <NewPrintRequestFormComponent />
                 </AppDialogue>
             </PrintJobContext.Provider>
         </>
