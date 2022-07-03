@@ -11,11 +11,7 @@ function AppFormImagePicker({name, width = '150px', height = '150px', ...otherPr
 
     const handleChange = (event) => {
         let files = event.target.files;
-        let reader = new FileReader();
-        reader.readAsDataURL(files[0]);
-        reader.onload = (e) => {
-            setFieldValue(name, e.target.result);
-        }
+        setFieldValue(name, files[0]);
     }
 
     return (
@@ -25,10 +21,10 @@ function AppFormImagePicker({name, width = '150px', height = '150px', ...otherPr
                 flexGrow: 0,
                 flexDirection: 'column',
             }}>
-                <FileBase64
-                    multiple={false}
-                    onDone={({base64}) => setFieldValue(name, base64)}/>
-                {/*<input type='file' onChange={(e) => handleChange(e)} fullWidth={false} />*/}
+                {/*<FileBase64*/}
+                {/*    multiple={false}*/}
+                {/*    onDone={({base64}) => setFieldValue(name, base64)}/>*/}
+                <input type='file' onChange={(e) => handleChange(e)} fullWidth={false} />
                 {values[name] && (
                     <Box sx={{mt: 1}}>
                         <img src={values[name]} width={width} height={height}/>

@@ -1,5 +1,4 @@
 import React from 'react';
-import * as Yup from "yup";
 import CustomerDashboardLayout from "../../app/components/layout/component/customerDashboardLayout";
 import AppTable from "../../app/components/commons/AppTable";
 import {useRouter} from "next/router";
@@ -19,13 +18,13 @@ const Documents = [
 ]
 
 const Columns = [
-    { field: 'printCode', headerName: 'Print Code', flex: 1 },
-    { field: 'title', headerName: 'Title', flex: 1 },
-    { field: 'pages', headerName: 'Pages', flex: 1 },
-    { field: 'copies', headerName: 'Copies', flex: 1 },
-    { field: 'price', headerName: 'Price', flex: 1 },
-    { field: 'created_at', headerName: 'Created At', flex: 1 },
-    { field: 'actions', headerName: 'Actions', flex: 1 },
+    {field: 'printCode', headerName: 'Print Code', flex: 1},
+    {field: 'title', headerName: 'Title', flex: 1},
+    {field: 'pages', headerName: 'Pages', flex: 1},
+    {field: 'copies', headerName: 'Copies', flex: 1},
+    {field: 'price', headerName: 'Price', flex: 1},
+    {field: 'created_at', headerName: 'Created At', flex: 1},
+    {field: 'actions', headerName: 'Actions', flex: 1},
 ]
 
 function Index(props) {
@@ -64,7 +63,7 @@ function Index(props) {
     return (
         <>
             <CustomerDashboardLayout>
-                <AppTable data={documents} columns={Columns} onClickEvent={(val) => handleGoToDetails(val)}  />
+                <AppTable data={documents} columns={Columns} onClickEvent={(val) => handleGoToDetails(val)}/>
             </CustomerDashboardLayout>
 
         </>
