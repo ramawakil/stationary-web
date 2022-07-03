@@ -27,14 +27,6 @@ const Columns = [
     { field: 'actions', headerName: 'Actions', flex: 1 },
 ]
 
-const ValidationSchema = Yup.object().shape({
-    title: Yup.string().required('Title is required'),
-    pages: Yup.string().required('Pages is required'),
-    copies: Yup.string().required('Copies is required'),
-    price: Yup.string().required('Price is required'),
-});
-
-
 function Index(props) {
     const [open, setOpen] = React.useState(false);
     const [documents, setDocuments] = React.useState(Documents);
