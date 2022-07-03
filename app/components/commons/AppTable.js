@@ -38,7 +38,7 @@ import {DataGrid} from '@mui/x-data-grid';
 // ];
 
 
-function AppTable({pageSize, data, columns,}) {
+function AppTable({pageSize, data, columns, onClickEvent = null}) {
     return (
         <>
             <Box sx={{
@@ -55,6 +55,10 @@ function AppTable({pageSize, data, columns,}) {
                     disableColumnMenu={true}
                     disableColumnFilter={true}
                     rowsPerPageOptions={[5]}
+                    autoHeight={true}
+
+                    onRowClick={(params) => onClickEvent(params)}
+
                 />
 
             </Box>

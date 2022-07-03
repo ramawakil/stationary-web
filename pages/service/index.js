@@ -52,6 +52,10 @@ function Index(props) {
         handleClose();
     };
 
+    const handleGoToDetails = () => {
+
+    }
+
     const handleSubmit = (values) => {
         const obj = {
             id: documents.length + 1,
@@ -66,7 +70,7 @@ function Index(props) {
     return (
         <>
             <CustomerDashboardLayout>
-                <AppTable data={documents} columns={Columns} />
+                <AppTable data={documents} columns={Columns} onClickEvent={handleGoToDetails}  />
             </CustomerDashboardLayout>
 
         </>

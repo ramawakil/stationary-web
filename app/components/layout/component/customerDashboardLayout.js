@@ -7,11 +7,13 @@ import AppTextInput from "../../AppTextInput";
 import AppButton from "../../AppButton";
 import PrintJobContext from "../../../context/printJobContext";
 import CustomerPrintJob from "../../customerPrintJob";
+import AppDialogue from "../../AppDialogue";
 
 function CustomerDashboardLayout({children}) {
     const { user } = useContext(UserContext);
     const router = useRouter();
     const [ printJob, setPrintJob ] = React.useState(null);
+    const [openDialog, setOpenDialog] = React.useState(false);
 
     const handleLogOut = () => {
         router.push('/')
@@ -24,6 +26,14 @@ function CustomerDashboardLayout({children}) {
     useEffect(() => {
         // fetch print job matching the control code entered
     }, [printJob]);
+
+    const handleOpenDialogue = () => {
+        setOpenDialog(true);
+    }
+
+    const handleCloseDialog = () => {
+        setOpenDialog(false);
+    }
 
 
     return (
@@ -45,12 +55,15 @@ function CustomerDashboardLayout({children}) {
                         <AppButton onPress={handleSearchPrintJob} title='Search' variant='outlined' color='info'  />
                     </Box>
                     <Box sx={{ flex: 0.28 }}>
-                        <AppButton onPress={handleSearchPrintJob} title='Add new print request' variant='outlined' color='success'  />
+                        <AppButton onPress={handleOpenDialogue} title='Add new print request' variant='outlined' color='success'  />
                     </Box>
                 </Box>
                 <CustomerPrintJob />
                 {children}
             </Container>
+                <AppDialogue title='New Print Request' open={openDialog} handleCloseDialog={handleCloseDialog} >
+
+                </AppDialogue>
             </PrintJobContext.Provider>
         </>
     );
