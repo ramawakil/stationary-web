@@ -75,13 +75,14 @@ function CustomerPrintJob({  }) {
                 <Box sx={{
                     display: 'flex',
                     flexDirection: 'row',
-                    justifyContent: 'space-between',
+                    justifyContent: 'flex-end',
+                    alignItems: 'center',
                 }}>
-                    <Box>
+                    <Box sx={{ flex: 0.4 }}>
                         <AppTextInput setValue={setConfirmCode} value={confirmCode} label='Payment Confirm code' />
                     </Box>
                     <Box>
-                        <AppButton title='Confirm' color='success' onPress={handleConfirmPayment} startIcon={<PriceCheckIcon />} />
+                        <AppButton variant='contained' title='Confirm payment' color='success' onPress={handleConfirmPayment} startIcon={<PriceCheckIcon />} />
                     </Box>
 
                 </Box>

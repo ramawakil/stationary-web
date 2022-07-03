@@ -38,11 +38,14 @@ function CustomerDashboardLayout({children}) {
                     flexDirection: 'row',
                     justifyContent: 'space-between',
                 }}>
-                    <Box sx={{ flex: 0.8 }}>
+                    <Box sx={{ flex: 0.5 }}>
                         <AppTextInput value={printJob} setValue={setPrintJob} label='Enter print job control code' />
                     </Box>
                     <Box sx={{ flex: 0.18 }}>
                         <AppButton onPress={handleSearchPrintJob} title='Search' variant='outlined' color='info'  />
+                    </Box>
+                    <Box sx={{ flex: 0.28 }}>
+                        <AppButton onPress={handleSearchPrintJob} title='Add new print request' variant='outlined' color='success'  />
                     </Box>
                 </Box>
                 <CustomerPrintJob />
