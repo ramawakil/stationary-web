@@ -21,7 +21,7 @@ const Documents = [
 ]
 
 const Columns = [
-    {field: 'printCode', headerName: 'Print Code', flex: 1},
+    {field: 'print_code', headerName: 'Print Code', flex: 1},
     {field: 'title', headerName: 'Title', flex: 1},
     {field: 'pages', headerName: 'Pages', flex: 1},
     {field: 'copies', headerName: 'Copies', flex: 1},

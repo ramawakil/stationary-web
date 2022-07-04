@@ -41,7 +41,7 @@ function NewPrintRequestFormComponent({ closeDialog }) {
                 copies: printRequest.copies,
             })
             setLoading(false);
-            router.reload();
+            router.push('/service');
             closeDialog();
         }
         catch (e) {
