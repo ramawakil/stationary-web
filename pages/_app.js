@@ -20,7 +20,7 @@ function MyApp({Component, session, pageProps}) {
                     <ToastContainer />
                     <LoadingContext.Provider value={{ loading, setLoading }}>
                     <Box>
-                        <AppLoadingScreen />
+                        <AppLoadingScreen loading={loading} />
                         <Box>
                             <Component {...pageProps} />
                         </Box>

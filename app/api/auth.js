@@ -2,7 +2,7 @@ import http from "./client";
 import config from '../appConfig.json';
 
 
-const apiEndPoint = config.alternativeApiEndPoint;
+const apiEndPoint = config.apiEndPoint;
 // const tokenKey = config.apiEndPoint + "/api/token";
 const tokenAccess = 'accessTokenKey';
 const tokenRefresh = 'refreshTokenKey';
@@ -11,16 +11,9 @@ const tokenRefresh = 'refreshTokenKey';
 
 export async function login(credentials) {
     await logout();
-    const res = await http.post(`${apiEndPoint}/auth`, credentials, {
-        headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
-        }
-    });
+    const res = await http.post(`${apiEndPoint}/auth/jwt/create/`, credentials);
     // res.data contains { access, refresh }
-    if (res.data.result) {
-        await loginWithJwt(res.data.result.session_id);
-    }
+    await loginWithJwt(res.data.access);
     return res;
 }
 

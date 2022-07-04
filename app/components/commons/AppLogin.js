@@ -10,6 +10,8 @@ import LockIcon from '@mui/icons-material/Lock';
 import AppButton from "../AppButton";
 import LoadingContext from "../../context/loadingContext";
 import {useRouter} from "next/router";
+import AuthApi from "../../api/auth";
+import {toast} from "react-toastify";
 
 
 const ValidationSchema = Yup.object().shape({
@@ -30,12 +32,24 @@ function AppLogin({
 
     const {setLoading} = useContext(LoadingContext);
     const router = useRouter();
+    const [error, setError] = React.useState(null);
 
-    const handleSubmit = (values) => {
+    const handleSubmit = async (values) => {
         setLoading(true);
-        onSubmitForm(values);
-        console.log(values);
-        return setLoading(true);
+        try {
+             await AuthApi.login({
+                username: values.username,
+                password: values.password
+            });
+            setLoading(false);
+            await router.push('/');
+            return;
+
+        }
+        catch (e) {
+            setLoading(false);
+            toast.error(e.response.data.detail);
+        }
     }
 
     const handleForgotPassword = () => {
@@ -54,7 +68,7 @@ function AppLogin({
                 p: 2
             }}>
 
-                <AppLogo imageUrl='/vercel.svg' appTitle={title} subtitle={subTitle}
+                <AppLogo imageUrl='/printer1.png' appTitle={title} subtitle={subTitle}
                          imageAlt='Company logo at login page' height={imageSize} width={imageSize}/>
 
                 <AppForm
@@ -71,6 +85,7 @@ function AppLogin({
 
                     <AppFormField
                         name='password'
+                        type='password'
                         label={passwordLabel ? passwordLabel : 'Password'}
                         backIcon={<LockIcon color='icon'/>}
                     />

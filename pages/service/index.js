@@ -1,7 +1,10 @@
-import React from 'react';
+import React, {useContext, useEffect} from 'react';
 import CustomerDashboardLayout from "../../app/components/layout/component/customerDashboardLayout";
 import AppTable from "../../app/components/commons/AppTable";
 import {useRouter} from "next/router";
+import customersApi from "../../app/api/customers";
+import {toast} from "react-toastify";
+import LoadingContext from "../../app/context/loadingContext";
 
 
 const Documents = [
@@ -31,6 +34,7 @@ function Index(props) {
     const [open, setOpen] = React.useState(false);
     const [documents, setDocuments] = React.useState(Documents);
     const router = useRouter();
+    const { setLoading } = useContext(LoadingContext);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -59,6 +63,25 @@ function Index(props) {
         setDocuments(documents.concat(obj));
         handleClose();
     };
+
+    const handleFetchPrintJobs = async () => {
+        setLoading(true);
+        try {
+            const res = await customersApi.getPrintJobs();
+            setLoading(false);
+            setDocuments(res.data);
+        }
+        catch (e) {
+            setLoading(false);
+            toast.error(e.response.data.detail);
+        }
+
+    }
+
+    useEffect(() => {
+        handleFetchPrintJobs();
+    }, []);
+
 
     return (
         <>

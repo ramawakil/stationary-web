@@ -1,0 +1,5 @@
+{
+  "apiEndPoint": "https://flash-printer-app.herokuapp.com",
+  "alternateApiEndPoint": "http://localhost:8000",
+  "appName": "Flash Printer"
+}

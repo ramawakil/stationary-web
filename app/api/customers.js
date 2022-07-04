@@ -2,13 +2,33 @@ import http from "./client";
 import config from '../appConfig.json';
 
 
-const apiEndPoint = config.alternativeApiEndPoint;
+const apiEndPoint = config.apiEndPoint+"/api";
 // const tokenKey = config.apiEndPoint + "/api/token";
 const tokenAccess = 'accessTokenKey';
 
 export async function getJwt() {
     return await JSON.parse(localStorage.getItem(tokenAccess));
 }
+
+
+export async function getPrintJobs() {
+    const access = await getJwt();
+    return await http.get(`${apiEndPoint}/print-jobs/`, {
+        headers: {
+            'Authorization': `JWT ${access}`
+        }
+    });
+}
+
+export async function createPrintJob(data) {
+    const access = await getJwt();
+    return await http.post(`${apiEndPoint}/print-jobs/`, data, {
+        headers: {
+            'Authorization': `JWT ${access}`
+        }
+    });
+}
+
 
 export async function titles() {
     const access = await getJwt();
@@ -49,6 +69,8 @@ const customersApi = {
     titles,
     getCustomers,
     createCustomer,
+    getPrintJobs,
+    createPrintJob,
 }
 
 export default customersApi;

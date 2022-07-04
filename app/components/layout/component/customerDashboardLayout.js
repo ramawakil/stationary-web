@@ -37,7 +37,6 @@ function CustomerDashboardLayout({children}) {
         setOpenDialog(false);
     }
 
-
     return (
         <>
             <PrintJobContext.Provider value={{printJob, setPrintJob}}>
@@ -51,17 +50,17 @@ function CustomerDashboardLayout({children}) {
                     justifyContent: 'space-between',
                 }}>
                     <Box sx={{ flex: 0.5 }}>
-                        <AppTextInput value={printJob} setValue={setPrintJob} label='Enter print job control code' />
+                        { !user && <AppTextInput value={printJob} setValue={setPrintJob} label='Enter print job control code'/>}
                     </Box>
                     <Box sx={{ flex: 0.18 }}>
-                        <AppButton onPress={handleSearchPrintJob} title='Search' variant='outlined' color='info'  />
+                        { !user && <AppButton onPress={handleSearchPrintJob} title='Search' variant='outlined' color='info'/>}
                     </Box>
                     <Box sx={{ flex: 0.28 }}>
                         <AppButton onPress={handleOpenDialogue} title='Add new print request' variant='outlined' color='success'  />
                     </Box>
                 </Box>
-                <CustomerPrintJob />
-                {children}
+                { !user && <CustomerPrintJob/> }
+                 {children}
             </Container>
                 <AppDialogue title='New Print Request' open={openDialog} handleCloseDialog={handleCloseDialog} >
                     <NewPrintRequestFormComponent />

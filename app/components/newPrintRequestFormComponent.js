@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import AppForm from "./forms/AppForm";
 import * as Yup from "yup";
 import {Box} from "@mui/material";
@@ -9,36 +9,61 @@ import AppText from "./AppText";
 import AppSubmitButton from "./forms/AppSubmitButton";
 import AppButton from "./AppButton";
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
+import customersApi from "../api/customers";
+import LoadingContext from "../context/loadingContext";
+import {toast} from "react-toastify";
+import {useRouter} from "next/router";
 
 
 const ValidationSchema = Yup.object().shape({
-    file: Yup.string().required('File is required'),
     title: Yup.string().required('Title is required'),
+    description: Yup.string().label('Description'),
     pages: Yup.number().required('Pages is required'),
     copies: Yup.number().required('Copies is required'),
 });
 
 
-function NewPrintRequestFormComponent(props) {
+function NewPrintRequestFormComponent({ closeDialog }) {
     const [total_price, setTotal_price] = React.useState(0);
     const [printRequest, setPrintRequest] = React.useState(null);
+    const { setLoading } = useContext(LoadingContext);
+    const router = useRouter();
 
-    const handleCreatePrintRequest = (values) => {
+    const handleCreatePrintRequest = async () => {
+        setLoading(true);
+        console.log(printRequest);
+        try {
+            await customersApi.createPrintJob({
+                title: printRequest.title,
+                description: printRequest.description,
+                total_price: total_price,
+                pages: printRequest.pages,
+                copies: printRequest.copies,
+            })
+            setLoading(false);
+            router.reload();
+            closeDialog();
+        }
+        catch (e) {
+            setLoading(false);
+            console.log(e);
+            toast.error(e);
+        }
 
     }
 
     const calculateTotalPrice = (values) => {
         const total = values.pages * values.copies * 50.00;
         setTotal_price(total);
-        console.log('here')
+        setPrintRequest(values);
     }
 
     return (
         <>
             <AppForm
                 initialValues={{
-                    file: '',
                     title: '',
+                    description: '',
                     pages: 1,
                     copies: 1,
                 }}
@@ -52,15 +77,21 @@ function NewPrintRequestFormComponent(props) {
                     justifyContent: 'space-between',
                 }}>
                    <Box>
-                       <AppFormImagePicker
-                            name='file'
-                       />
 
                        <AppFormField
                            name='title'
                            label='File Title'
                            type='text'
                        />
+
+                       <AppFormField
+                           name='description'
+                            label='Description'
+                            type='text'
+                           multiline
+                            rows={4}
+                           variant='outlined'
+                           />
 
                    </Box>
                     <Box sx={{}}>

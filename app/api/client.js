@@ -5,7 +5,7 @@ import appConfig from "../appConfig.json";
 
 
 const tokenJwt = 'accessTokenKey';
-axios.defaults.baseURL = appConfig.alternativeApiEndPoint;
+axios.defaults.baseURL = appConfig.apiEndPoint;
 
 // axios.defaults.headers.common["Authorization"] = `JWT ${localStorage.getItem(tokenJwt)}`;
 // add token to every request

@@ -8,6 +8,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
 import {useRouter} from "next/router";
+import AppConfig from '../appConfig.json';
 
 
 const drawerWidth = 200;
@@ -62,8 +63,8 @@ function AppNavBar({open = true, showButton, auth = true, handleLogOut, handleDr
                         <MenuIcon/>
                     </IconButton>)}
                     <IconButton color='white' onClick={handleClickHome}>
-                        Company Title
-                        <Avatar sx={{ml: 1}} src='/logo192.png'/>
+                        {AppConfig.appName}
+                        <Avatar sx={{ml: 1}} src='/printer.png'/>
                     </IconButton>
 
                     <Box component="div" sx={{flexGrow: 1}}></Box>

@@ -11,6 +11,7 @@ import AppSubmitButton from "../app/components/forms/AppSubmitButton";
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
 import AppButton from "../app/components/AppButton";
 import {useRouter} from "next/router";
+import AppConfig from "../app/appConfig.json";
 
 
 const ValidationSchema = Yup.object().shape({
@@ -42,7 +43,7 @@ function Register(props) {
             <BaseLayoutNavBar>
                 <Container maxWidth='sm' sx={{ mt: 15, p:2  }} component={Paper}>
                     <Box>
-                        <AppLogo imageUrl='/vercel.svg' appTitle='Flash Printer' subtitle='Complete the form to Register..' />
+                        <AppLogo imageUrl='/printer1.png' appTitle={AppConfig.appName} subtitle='Complete the form to Register..' />
                     </Box>
                     <AppForm
                         initialValues={{
