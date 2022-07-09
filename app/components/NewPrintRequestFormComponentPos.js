@@ -17,8 +17,9 @@ const ValidationSchema = Yup.object().shape({
     file: Yup.string().required('File is required'),
 });
 
-function NewPrintRequestFormComponentPos(props) {
+function NewPrintRequestFormComponentPos({ obj, closeDialog }) {
     const pdfRef = useRef(null);
+    const [file, setFile] = React.useState(null);
 
 
     const handleCreatePrintRequest = (values) => {
@@ -26,9 +27,9 @@ function NewPrintRequestFormComponentPos(props) {
     }
 
     const printDocument = (values) => {
-        let doc = new jsPDF();
-        doc.loadFile(values.file);
-        doc.save('print.pdf');
+       window.print();
+      
+
     }
 
     return (
@@ -47,20 +48,23 @@ function NewPrintRequestFormComponentPos(props) {
                     justifyContent: 'space-around',
                 }}>
                     <Box>
-                        <AppFormImagePicker
-                            name='file'
-                        />
+                        {/*<AppFormImagePicker*/}
+                        {/*    name='file'*/}
+                        {/*    */}
+                        {/*/>*/}
 
-                        <AppText sx={{ mt: 2 }}>Title</AppText>
+                        <input type='file' value={file} onChange={(e) => setFile(e.target.value)} />
+
+                        <AppText sx={{ mt: 2 }}>{obj?.title}</AppText>
                         <Divider sx={{ marginY: 1 }} />
 
                     </Box>
                     <Box sx={{}}>
 
-                        <AppText sx={{ mt: 2 }}>23 Pages</AppText>
+                        <AppText sx={{ mt: 2 }}>{obj?.pages} Pages</AppText>
                         <Divider sx={{ marginY: 1 }} />
 
-                        <AppText sx={{ mt: 2 }}>2 Copies</AppText>
+                        <AppText sx={{ mt: 2 }}>{obj?.copies} Copies</AppText>
                         <Divider sx={{ marginY: 1 }} />
 
 
@@ -69,9 +73,9 @@ function NewPrintRequestFormComponentPos(props) {
                             alignItems: 'center',
                             justifyContent: 'space-around',
                         }}>
-                            <PointOfSaleIcon color='info'/> <AppText sx={{ml: 2}}>Total price: 34567</AppText>
+                            <PointOfSaleIcon color='info'/> <AppText sx={{ml: 2}}>Total price: {obj?.total_price}</AppText>
                         </Box>
-                        <AppSubmitButton color='info' sx={{mt: 2}} title='Print Document' variant='outlined'/>
+                        <AppButton onPress={printDocument} color='info' sx={{mt: 2}} title='Print Document' variant='outlined'/>
                     </Box>
                 </Box>
 

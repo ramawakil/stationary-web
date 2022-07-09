@@ -50,12 +50,11 @@ function AppTable({pageSize, data, columns, onClickEvent = null}) {
                 <DataGrid
                     rows={data}
                     columns={columns}
-                    pageSize={pageSize}
+                    pageSize={7}
                     headerHeight={50}
                     disableColumnMenu={true}
                     disableColumnFilter={true}
-                    rowsPerPageOptions={[5]}
-                    autoHeight={true}
+                    rowsPerPageOptions={[10]}
 
                     onRowClick={(params) => onClickEvent(params)}
 

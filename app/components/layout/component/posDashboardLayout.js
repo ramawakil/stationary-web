@@ -10,12 +10,14 @@ import PosPrintJob from "../../posPrintJob";
 import AppDialogue from "../../AppDialogue";
 import NewPrintRequestFormComponent from "../../newPrintRequestFormComponent";
 import NewPrintRequestFormComponentPos from "../../NewPrintRequestFormComponentPos";
+import customersApi from "../../../api/customers";
 
 function PosDashboardLayout({children}) {
     const {user, setUser} = useContext(UserContext);
     const router = useRouter();
     const [ printJob, setPrintJob ] = React.useState(null);
     const [ openDialog, setOpenDialog ] = React.useState(false);
+    const [printJobObj, setPrintJobObj] = React.useState(null);
 
     const handleLogOut = () => {
         setUser(null);
@@ -38,6 +40,20 @@ function PosDashboardLayout({children}) {
         setOpenDialog(true);
     }
 
+    const searchPrintCode = async (printCode) => {
+        if (printJob.length === 6) {
+            try{
+                const res = await customersApi.getPrintJobs(printJob);
+                setPrintJobObj(res.data[0]);
+            }
+            catch(err){
+
+            }
+
+        }
+
+    }
+
 
 
 
@@ -57,18 +73,19 @@ function PosDashboardLayout({children}) {
                         <AppTextInput value={printJob} setValue={setPrintJob} label='Enter print job control code'/>
                     </Box>
                     <Box sx={{flex: 0.18}}>
-                        <AppButton onPress={handleSearchPrintJob} title='Search' variant='outlined' color='info'/>
+                        <AppButton onPress={searchPrintCode} title='Search' variant='outlined' color='info'/>
                     </Box>
 
                     <Box sx={{flex: 0.18}}>
                         <AppButton onPress={handleGoToConfig} title='Configurations' variant='outlined' color='accent'/>
                     </Box>
                 </Box>
-                <PosPrintJob onSubmit={handleOpenDialog} />
+
+                { printJobObj && <PosPrintJob obj={printJobObj} onSubmit={handleOpenDialog}/>}
                 {children}
             </Container>
             <AppDialogue title='New Print Request' open={openDialog} handleCloseDialog={handleCloseDialog} >
-                <NewPrintRequestFormComponentPos />
+                <NewPrintRequestFormComponentPos obj={printJobObj} closeDialog={handleCloseDialog} />
             </AppDialogue>
         </>
     );

@@ -20,21 +20,36 @@ const Documents = [
     }
 ]
 
+const changeStatus = (status) => {
+    switch (status) {
+        case 1:
+            return 'Pending payment';
+        case 2:
+            return 'Printing';
+        case 3:
+            return 'Waiting pickup';
+    }
+}
+
 const Columns = [
     {field: 'print_code', headerName: 'Print Code', flex: 1},
     {field: 'title', headerName: 'Title', flex: 1},
     {field: 'pages', headerName: 'Pages', flex: 1},
     {field: 'copies', headerName: 'Copies', flex: 1},
-    {field: 'price', headerName: 'Price', flex: 1},
+    {field: 'total_price', headerName: 'Price (Tsh)', flex: 1},
     {field: 'created_at', headerName: 'Created At', flex: 1},
-    {field: 'actions', headerName: 'Actions', flex: 1},
+    {
+        field: 'status', headerName: 'Actions',
+        valueGetter: (params) => `${changeStatus(params.row.status)}`
+        , flex: 1
+    },
 ]
 
 function Index(props) {
     const [open, setOpen] = React.useState(false);
     const [documents, setDocuments] = React.useState(Documents);
     const router = useRouter();
-    const { setLoading } = useContext(LoadingContext);
+    const {setLoading} = useContext(LoadingContext);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -50,47 +65,52 @@ function Index(props) {
     };
 
     const handleGoToDetails = (val) => {
-        router.push(`/service/${val.id}`)
+        toast(`${val.row.print_code}`)
     }
 
-    const handleSubmit = (values) => {
-        const obj = {
-            id: documents.length + 1,
-            created_at: 'Moment ago',
-            actions: 'Pending',
-            ...values
-        }
-        setDocuments(documents.concat(obj));
-        handleClose();
-    };
+        const handleSubmit = (values) => {
+            const obj = {
+                id: documents.length + 1,
+                created_at: 'Moment ago',
+                actions: 'Pending',
+                ...values
+            }
+            setDocuments(documents.concat(obj));
+            handleClose();
+        };
 
-    const handleFetchPrintJobs = async () => {
-        setLoading(true);
-        try {
-            const res = await customersApi.getPrintJobs();
-            setLoading(false);
-            setDocuments(res.data);
-        }
-        catch (e) {
-            setLoading(false);
-            toast.error(e.response.data.detail);
+        const handleFetchPrintJobs = async () => {
+            setLoading(true);
+            try {
+                const res = await customersApi.getPrintJobs();
+                console.log(res)
+                setLoading(false);
+                setDocuments(res.data);
+            } catch (e) {
+                setLoading(false);
+                console.log(e)
+                toast.error(e.response.data.detail);
+            }
+
         }
 
+        useEffect(() => {
+            handleFetchPrintJobs();
+        }, []);
+
+        useEffect(() => {
+            handleFetchPrintJobs();
+        }, [open]);
+
+
+        return (
+            <>
+                <CustomerDashboardLayout>
+                    <AppTable data={documents} columns={Columns} onClickEvent={(val) => handleGoToDetails(val)}/>
+                </CustomerDashboardLayout>
+
+            </>
+        );
     }
 
-    useEffect(() => {
-        handleFetchPrintJobs();
-    }, []);
-
-
-    return (
-        <>
-            <CustomerDashboardLayout>
-                <AppTable data={documents} columns={Columns} onClickEvent={(val) => handleGoToDetails(val)}/>
-            </CustomerDashboardLayout>
-
-        </>
-    );
-}
-
-export default Index;
+    export default Index;

@@ -39,7 +39,7 @@ function Index() {
     return (
         <>
             <PosDashboardLayout>
-                <AppTable onClickEvent={handleGoToDetails} columns={Columns} data={documents}/>
+                {/*<AppTable onClickEvent={handleGoToDetails} columns={Columns} data={documents}/>*/}
 
             </PosDashboardLayout>
         </>

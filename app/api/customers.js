@@ -11,9 +11,12 @@ export async function getJwt() {
 }
 
 
-export async function getPrintJobs() {
+export async function getPrintJobs(search = "") {
     const access = await getJwt();
     return await http.get(`${apiEndPoint}/print-jobs/`, {
+        params:{
+            search: search
+        },
         headers: {
             'Authorization': `JWT ${access}`
         }
@@ -23,6 +26,15 @@ export async function getPrintJobs() {
 export async function createPrintJob(data) {
     const access = await getJwt();
     return await http.post(`${apiEndPoint}/print-jobs/`, data, {
+        headers: {
+            'Authorization': `JWT ${access}`
+        }
+    });
+}
+
+export async function getPrintJob(id) {
+    const access = await getJwt();
+    return await http.get(`${apiEndPoint}/print-jobs/${id}/`, {
         headers: {
             'Authorization': `JWT ${access}`
         }
@@ -71,6 +83,7 @@ const customersApi = {
     createCustomer,
     getPrintJobs,
     createPrintJob,
+    getPrintJob,
 }
 
 export default customersApi;

@@ -63,7 +63,7 @@ function CustomerDashboardLayout({children}) {
                  {children}
             </Container>
                 <AppDialogue title='New Print Request' open={openDialog} handleCloseDialog={handleCloseDialog} >
-                    <NewPrintRequestFormComponent />
+                    <NewPrintRequestFormComponent  closeDialog={handleCloseDialog} />
                 </AppDialogue>
             </PrintJobContext.Provider>
         </>

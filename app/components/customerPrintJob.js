@@ -13,8 +13,19 @@ import AppButton from "./AppButton";
 import PriceCheckIcon from '@mui/icons-material/PriceCheck';
 import {Check} from "@mui/icons-material";
 
+const changeStatus = (status) => {
+    switch (status) {
+        case 1:
+            return 'Pending payment';
+        case 2:
+            return 'Printing';
+        case 3:
+            return 'Waiting pickup';
+    }
+}
 
-function CustomerPrintJob({  }) {
+
+function CustomerPrintJob({ printJob }) {
     const [confirmCode, setConfirmCode] = React.useState('');
 
     const handleConfirmPayment = () => {
@@ -30,30 +41,32 @@ function CustomerPrintJob({  }) {
                         flexDirection: 'row',
                         justifyContent: 'space-evenly',
                     }}>
-                        <AppText>ID: 09s8dsd00</AppText>
+                        <AppText>{ printJob?.print_code }</AppText>
                         <Stack spacing={2} direction='row'>
                             <Tooltip title='Pages'>
                                 <AutoStoriesIcon />
                             </Tooltip>
-                            <AppText variant='subtitle2'>15</AppText>
+                            <AppText variant='subtitle2'>{printJob?.pages}</AppText>
                         </Stack>
 
                         <Stack sx={{ marginX: 4 }} spacing={2} direction='row'>
                             <Tooltip title='Copies'>
                                 <FileCopyIcon />
                             </Tooltip>
-                            <AppText>1</AppText>
+                            <AppText>{printJob?.copies}</AppText>
                         </Stack>
 
                         <Stack spacing={3} direction='row'>
                             <Tooltip title='Payment'>
-                                <CreditCardOffIcon />
+                                {/*{ (printJob?.status === 1) && (<CreditCardOffIcon />) }*/}
+                                {/*{ (printJob?.status === 2) && (<PaymentIcon />) }*/}
+
                             </Tooltip>
-                            <AppText>Pending</AppText>
+                            <AppText>{changeStatus(printJob?.status)}</AppText>
                         </Stack>
                     </Box>
                     <Divider sx={{ marginY: 2 }} />
-                    <AppText>sdsadasdasdasdasdasdasdas</AppText>
+                    <AppText>{printJob?.description}</AppText>
                     <Divider sx={{ marginY: 2 }} />
                     <Box sx={{
                         display: 'flex',
@@ -64,10 +77,10 @@ function CustomerPrintJob({  }) {
                         <Box sx={{
 
                         }}>
-                            <AppIconButton icon={<FileOpenIcon />} label='File location' /> FYP papers
+                            <AppIconButton icon={<FileOpenIcon />} label='File location' /> {printJob?.title}
                         </Box>
                         <Box>
-                            <AppText>Tsh 5000</AppText>
+                            <AppText>{printJob?.total_price}</AppText>
                         </Box>
                     </Box>
                 </Box>
