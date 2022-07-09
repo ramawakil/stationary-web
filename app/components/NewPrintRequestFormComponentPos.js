@@ -1,23 +1,17 @@
-import React, { useRef } from 'react';
+import React, {useRef} from 'react';
 import AppForm from "./forms/AppForm";
 import {Box, Divider} from "@mui/material";
-import AppFormImagePicker from "./forms/AppFormImagePicker";
-import AppFormField from "./forms/AppFormField";
 import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
 import AppText from "./AppText";
-import AppSubmitButton from "./forms/AppSubmitButton";
 import AppButton from "./AppButton";
-import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 import * as Yup from "yup";
-import { jsPDF } from 'jspdf';
-
 
 
 const ValidationSchema = Yup.object().shape({
     file: Yup.string().required('File is required'),
 });
 
-function NewPrintRequestFormComponentPos({ obj, closeDialog }) {
+function NewPrintRequestFormComponentPos({obj, closeDialog}) {
     const pdfRef = useRef(null);
     const [file, setFile] = React.useState(null);
 
@@ -27,8 +21,8 @@ function NewPrintRequestFormComponentPos({ obj, closeDialog }) {
     }
 
     const printDocument = (values) => {
-       window.print();
-      
+        window.print();
+
 
     }
 
@@ -53,19 +47,19 @@ function NewPrintRequestFormComponentPos({ obj, closeDialog }) {
                         {/*    */}
                         {/*/>*/}
 
-                        <input type='file' value={file} onChange={(e) => setFile(e.target.value)} />
+                        <input type='file' value={file} onChange={(e) => setFile(e.target.value)}/>
 
-                        <AppText sx={{ mt: 2 }}>{obj?.title}</AppText>
-                        <Divider sx={{ marginY: 1 }} />
+                        <AppText sx={{mt: 2}}>{obj?.title}</AppText>
+                        <Divider sx={{marginY: 1}}/>
 
                     </Box>
                     <Box sx={{}}>
 
-                        <AppText sx={{ mt: 2 }}>{obj?.pages} Pages</AppText>
-                        <Divider sx={{ marginY: 1 }} />
+                        <AppText sx={{mt: 2}}>{obj?.pages} Pages</AppText>
+                        <Divider sx={{marginY: 1}}/>
 
-                        <AppText sx={{ mt: 2 }}>{obj?.copies} Copies</AppText>
-                        <Divider sx={{ marginY: 1 }} />
+                        <AppText sx={{mt: 2}}>{obj?.copies} Copies</AppText>
+                        <Divider sx={{marginY: 1}}/>
 
 
                         <Box sx={{
@@ -73,9 +67,11 @@ function NewPrintRequestFormComponentPos({ obj, closeDialog }) {
                             alignItems: 'center',
                             justifyContent: 'space-around',
                         }}>
-                            <PointOfSaleIcon color='info'/> <AppText sx={{ml: 2}}>Total price: {obj?.total_price}</AppText>
+                            <PointOfSaleIcon color='info'/> <AppText sx={{ml: 2}}>Total
+                            price: {obj?.total_price}</AppText>
                         </Box>
-                        <AppButton onPress={printDocument} color='info' sx={{mt: 2}} title='Print Document' variant='outlined'/>
+                        <AppButton onPress={printDocument} color='info' sx={{mt: 2}} title='Print Document'
+                                   variant='outlined'/>
                     </Box>
                 </Box>
 
