@@ -1,8 +1,5 @@
 import React from 'react';
 import PosDashboardLayout from "../../app/components/layout/component/posDashboardLayout";
-import AppTable from "../../app/components/commons/AppTable";
-import AppDialogue from "../../app/components/AppDialogue";
-import NewPrintRequestFormComponent from "../../app/components/newPrintRequestFormComponent";
 
 
 const Documents = [
@@ -18,15 +15,6 @@ const Documents = [
     }
 ]
 
-const Columns = [
-    { field: 'printCode', headerName: 'Print Code', flex: 1 },
-    { field: 'title', headerName: 'Title', flex: 1 },
-    { field: 'pages', headerName: 'Pages', flex: 1 },
-    { field: 'copies', headerName: 'Copies', flex: 1 },
-    { field: 'price', headerName: 'Price', flex: 1 },
-    { field: 'created_at', headerName: 'Created At', flex: 1 },
-    { field: 'actions', headerName: 'Actions', flex: 1 },
-]
 
 function Index() {
     const [documents, setDocuments] = React.useState(Documents);
@@ -39,7 +27,7 @@ function Index() {
     return (
         <>
             <PosDashboardLayout>
-                {/*<AppTable onClickEvent={handleGoToDetails} columns={Columns} data={documents}/>*/}
+
 
             </PosDashboardLayout>
         </>

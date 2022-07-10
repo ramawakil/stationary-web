@@ -35,7 +35,11 @@ export default function Home() {
         // reroute according to label
         if (user.is_pos) {
             await router.push('/pos');
-        } else  {
+        }
+        else if (user.is_admin) {
+            await router.push('/pos/config');
+        }
+        else  {
             await router.push('/service');
         }
     }

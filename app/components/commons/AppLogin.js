@@ -46,11 +46,10 @@ function AppLogin({
              setUser(res.data);
             setLoading(false);
             await router.push('/');
-
-
         }
         catch (e) {
             setLoading(false);
+            console.log(e.response.data.detail)
             toast.error(e.response.data.detail);
         }
     }
