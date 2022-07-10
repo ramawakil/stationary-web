@@ -1,7 +1,7 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import AppForm from "./forms/AppForm";
 import * as Yup from "yup";
-import {Box} from "@mui/material";
+import {Box, CircularProgress} from "@mui/material";
 import AppFormImagePicker from "./forms/AppFormImagePicker";
 import AppFormField from "./forms/AppFormField";
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
@@ -13,6 +13,7 @@ import customersApi from "../api/customers";
 import LoadingContext from "../context/loadingContext";
 import {toast} from "react-toastify";
 import {useRouter} from "next/router";
+import AppTextInput from "./AppTextInput";
 
 
 const ValidationSchema = Yup.object().shape({
@@ -28,6 +29,11 @@ function NewPrintRequestFormComponent({ closeDialog }) {
     const [printRequest, setPrintRequest] = React.useState(null);
     const { setLoading } = useContext(LoadingContext);
     const router = useRouter();
+    const [paymentMobile, setPaymentMobile] = useState('');
+    const [enableSubmit, setEnableSubmit] = useState(false);
+    const [enableMobile, setEnableMobile] = useState(false);
+    const [loadingPayment, setLoadingPayment] = useState(false);
+
 
     const handleCreatePrintRequest = async () => {
         setLoading(true);
@@ -51,11 +57,31 @@ function NewPrintRequestFormComponent({ closeDialog }) {
 
     }
 
+    const handlePayment = () => {
+        setTimeout(() => {
+            setEnableSubmit(true);
+            setLoadingPayment(false);
+        }, 5000)
+    }
+
     const calculateTotalPrice = (values) => {
         const total = values.pages * values.copies * 50.00;
         setTotal_price(total);
         setPrintRequest(values);
+        setEnableMobile(true);
     }
+
+
+    useEffect(() => {
+        if (paymentMobile.length === 10) {
+            setLoadingPayment(true);
+            handlePayment();
+        }
+        else {
+            setLoadingPayment(false)
+            setEnableSubmit(false);
+        }
+    }, [paymentMobile])
 
     return (
         <>
@@ -126,7 +152,9 @@ function NewPrintRequestFormComponent({ closeDialog }) {
                         <div></div>
                         <Box sx={{
                         }}>
-                            <AppButton endIcon={<DoubleArrowIcon/>} color='success' onPress={handleCreatePrintRequest} variant='contained' title='Send Request' />
+                            <AppTextInput sx={{ mb: 2 }} disabled={!enableMobile} label='Mobile number' value={paymentMobile} setValue={setPaymentMobile} />
+                            { loadingPayment ?  <CircularProgress color="inherit"/> : ( !loadingPayment && <AppText variant='subtitle1'>Payment Completed...</AppText>) }
+                            <AppButton disabled={!enableSubmit} endIcon={<DoubleArrowIcon/>} color='success' onPress={handleCreatePrintRequest} variant='contained' title='Send Request' />
                         </Box>
                     </Box>
                 </Box>

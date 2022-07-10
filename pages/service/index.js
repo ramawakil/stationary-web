@@ -1,24 +1,17 @@
 import React, {useContext, useEffect} from 'react';
 import CustomerDashboardLayout from "../../app/components/layout/component/customerDashboardLayout";
 import AppTable from "../../app/components/commons/AppTable";
-import {useRouter} from "next/router";
 import customersApi from "../../app/api/customers";
 import {toast} from "react-toastify";
 import LoadingContext from "../../app/context/loadingContext";
+import AppDialogue from "../../app/components/AppDialogue";
+import NewPrintRequestFormComponent from "../../app/components/newPrintRequestFormComponent";
+import {Box} from "@mui/material";
+import AppTextInput from "../../app/components/AppTextInput";
+import AppButton from "../../app/components/AppButton";
+import UserContext from "../../app/context/userContext";
+import CustomerPrintJob from "../../app/components/customerPrintJob";
 
-
-const Documents = [
-    {
-        id: 1,
-        printCode: '098et1',
-        title: 'FYP Report Sem 1',
-        pages: '10',
-        copies: '2',
-        price: 'Tsh 100',
-        created_at: 'One day ago',
-        actions: 'Waiting pickup'
-    }
-]
 
 const changeStatus = (status) => {
     switch (status) {
@@ -46,71 +39,93 @@ const Columns = [
 ]
 
 function Index(props) {
+    const {user, setUser} = useContext(UserContext);
     const [open, setOpen] = React.useState(false);
-    const [documents, setDocuments] = React.useState(Documents);
-    const router = useRouter();
+    const [documents, setDocuments] = React.useState([]);
     const {setLoading} = useContext(LoadingContext);
+    const [printJob, setPrintJob] = React.useState(null);
+    const [openDialog, setOpenDialog] = React.useState(false);
 
     const handleClickOpen = () => {
         setOpen(true);
     };
 
+    const handleSearchPrintJob  = () => {
+        console.log('ok');
+    }
+
     const handleClose = () => {
         setOpen(false);
     };
 
-    const handleDelete = () => {
-        setDocuments(documents.filter(doc => doc.id !== document.id));
-        handleClose();
-    };
+    const handleOpenDialogue = () => {
+        setOpenDialog(true);
+    }
+
+    const handleCloseDialog = () => {
+        setOpenDialog(false);
+    }
+
 
     const handleGoToDetails = (val) => {
         toast(`${val.row.print_code}`)
     }
 
-        const handleSubmit = (values) => {
-            const obj = {
-                id: documents.length + 1,
-                created_at: 'Moment ago',
-                actions: 'Pending',
-                ...values
-            }
-            setDocuments(documents.concat(obj));
-            handleClose();
-        };
 
-        const handleFetchPrintJobs = async () => {
-            setLoading(true);
-            try {
-                const res = await customersApi.getPrintJobs();
-                console.log(res)
-                setLoading(false);
-                setDocuments(res.data);
-            } catch (e) {
-                setLoading(false);
-                console.log(e)
-                toast.error(e.response.data.detail);
-            }
-
+    const handleFetchPrintJobs = async () => {
+        setLoading(true);
+        try {
+            const res = await customersApi.getPrintJobs();
+            setLoading(false);
+            setDocuments(res.data);
+        } catch (e) {
+            setLoading(false);
+            console.log(e)
+            toast.error(e.response.data.detail);
         }
 
-        useEffect(() => {
-            handleFetchPrintJobs();
-        }, []);
-
-        useEffect(() => {
-            handleFetchPrintJobs();
-        }, [open]);
-
-
-        return (
-            <>
-                <CustomerDashboardLayout>
-                    <AppTable data={documents} columns={Columns} onClickEvent={(val) => handleGoToDetails(val)}/>
-                </CustomerDashboardLayout>
-
-            </>
-        );
     }
 
-    export default Index;
+    useEffect(() => {
+        handleFetchPrintJobs();
+    }, []);
+
+    useEffect(() => {
+        handleFetchPrintJobs();
+    }, [openDialog]);
+
+
+    return (
+        <>
+            <CustomerDashboardLayout>
+                <Box sx={{
+                    mt: 2,
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                }}>
+                    <Box sx={{flex: 0.5}}>
+                        {/*{!user && <AppTextInput value={printJob} setValue={setPrintJob}*/}
+                        {/*                        label='Enter print job control code'/>}*/}
+                    </Box>
+                    <Box sx={{flex: 0.18}}>
+                        {/*{!user &&*/}
+                        {/*    <AppButton onPress={handleSearchPrintJob} title='Search' variant='outlined' color='info'/>}*/}
+                    </Box>
+                    <Box sx={{flex: 0.28}}>
+                        <AppButton onPress={handleOpenDialogue} title='Add new print request' variant='outlined'
+                                   color='success'/>
+                    </Box>
+
+                </Box>
+                <AppTable data={documents} columns={Columns} onClickEvent={(val) => handleGoToDetails(val)}/>
+                <AppDialogue title='New Print Request' open={openDialog} handleCloseDialog={handleCloseDialog}>
+                    <NewPrintRequestFormComponent closeDialog={handleCloseDialog}/>
+                </AppDialogue>
+            </CustomerDashboardLayout>
+
+        </>
+    );
+}
+
+export default Index;

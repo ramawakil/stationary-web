@@ -25,7 +25,7 @@ function Login(props) {
                 username: values.username,
                 password: values.password
             });
-            console.log(res)
+            setUser(res.data);
         }
         catch (e) {
         }

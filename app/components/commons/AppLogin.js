@@ -12,6 +12,7 @@ import LoadingContext from "../../context/loadingContext";
 import {useRouter} from "next/router";
 import AuthApi from "../../api/auth";
 import {toast} from "react-toastify";
+import UserContext from "../../context/userContext";
 
 
 const ValidationSchema = Yup.object().shape({
@@ -33,17 +34,19 @@ function AppLogin({
     const {setLoading} = useContext(LoadingContext);
     const router = useRouter();
     const [error, setError] = React.useState(null);
+    const { setUser } = useContext(UserContext);
 
     const handleSubmit = async (values) => {
         setLoading(true);
         try {
-             await AuthApi.login({
+             const res = await AuthApi.login({
                 username: values.username,
                 password: values.password
             });
+             setUser(res.data);
             setLoading(false);
             await router.push('/');
-            return;
+
 
         }
         catch (e) {

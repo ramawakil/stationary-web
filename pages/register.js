@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import * as Yup from 'yup';
 import BaseLayoutNavBar from "../app/components/layout/BaseLayoutNavBar";
 import {Box, Container, InputAdornment, Paper} from "@mui/material";
@@ -12,6 +12,9 @@ import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
 import AppButton from "../app/components/AppButton";
 import {useRouter} from "next/router";
 import AppConfig from "../app/appConfig.json";
+import LoadingContext from "../app/context/loadingContext";
+import authApi from "../app/api/auth";
+import {toast} from "react-toastify";
 
 
 const ValidationSchema = Yup.object().shape({
@@ -25,9 +28,25 @@ const ValidationSchema = Yup.object().shape({
 function Register(props) {
     const [passwordVisible, setPasswordVisible] = React.useState(false);
     const router = useRouter();
+    const { setLoading } = useContext(LoadingContext);
 
-    const handleSubmit = (values) => {
-        console.log(values);
+    const handleSubmit = async (values) => {
+        setLoading(true);
+        try {
+            await authApi.register({
+                username: values.username,
+                first_name: values.fullName.toString().split(" ")[0],
+                last_name: values.fullName.toString().split(" ")[1],
+                password: values.password
+            })
+            toast('Account created successfully!')
+            setLoading(false);
+            await router.push('/login');
+        }
+        catch (e) {
+            setLoading(false);
+            toast.error(e);
+        }
     }
 
     const handleShowPassword = () => {

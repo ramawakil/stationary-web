@@ -9,6 +9,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
 import {useRouter} from "next/router";
 import AppConfig from '../appConfig.json';
+import authApi from "../api/auth";
 
 
 const drawerWidth = 200;
@@ -31,7 +32,7 @@ const AppBar = styled(MuiAppBar, {
 }));
 
 
-function AppNavBar({open = true, showButton, auth = true, handleLogOut, handleDrawerOpen}) {
+function AppNavBar({open = true, showButton, auth = true, handleLogOut = null, handleDrawerOpen}) {
     const router = useRouter();
 
 
@@ -45,6 +46,11 @@ function AppNavBar({open = true, showButton, auth = true, handleLogOut, handleDr
 
     const handleClickProfile = () => {
         router.push('/profile');
+    }
+
+    const handleLogout = async () => {
+        await authApi.logout();
+        await router.push('/login');
     }
 
 
@@ -73,7 +79,7 @@ function AppNavBar({open = true, showButton, auth = true, handleLogOut, handleDr
                                 <>
                                     <AppIconButton icon={<AccountCircleIcon color='white'/>}
                                                    onPress={handleClickProfile} label='Profile'/>
-                                    <AppIconButton icon={<LogoutIcon color='white'/>} onPress={handleLogOut}
+                                    <AppIconButton icon={<LogoutIcon color='white'/>} onPress={handleLogout}
                                                    label='Logout'/>
                                 </>
                             )

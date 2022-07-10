@@ -17,6 +17,11 @@ export async function login(credentials) {
     return res;
 }
 
+
+export async function register(data) {
+    return await http.post(`${apiEndPoint}/auth/users/`, data);
+}
+
 export async function fetchUser() {
     const access = await getJwt();
     return await http.get(`${apiEndPoint}/auth/users/me/`, {
@@ -53,7 +58,8 @@ const authApi = {
     logout,
     getCurrentUser,
     getJwt,
-    fetchUser
+    fetchUser,
+    register,
 };
 
 export default authApi;
